@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ blog.title }}</h1>
+    <p class="meta">Created at {{ blog.created_at|date:"M d, Y H:i" }}</p>
+</div>
+<div class="card blog-detail">
+    <div class="blog-content">
+        <p>{{ blog.content }}</p>
+    </div>
+</div>
+<div class="links-row">
+    <a class="button secondary" href="{% url 'blog_list' %}">Back to blogs</a>
+    <a class="button" href="{% url 'dashboard' %}">Generate new blog</a>
+</div>
+{% endblock %}

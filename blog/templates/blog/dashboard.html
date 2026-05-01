@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="hero">
+    <h1>Generate a new blog post</h1>
+    <p>Enter a topic and AI will generate content for you. Your blogs are saved automatically.</p>
+</div>
+<div class="card">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">{{ form.topic.label_tag }}{{ form.topic }}</div>
+        <button type="submit" class="button">Generate Blog</button>
+    </form>
+</div>
+
+{% if generated_blog %}
+<div class="card">
+    <h2>Generated Blog</h2>
+    <h3>{{ generated_blog.title }}</h3>
+    <p class="meta">Saved at {{ generated_blog.created_at|date:"M d, Y H:i" }}</p>
+    <div class="blog-detail">
+        <div class="blog-content">
+            <p>{{ generated_blog.content }}</p>
+        </div>
+    </div>
+    <div class="links-row">
+        <a class="button secondary" href="{% url 'blog_list' %}">View my blogs</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="links-row">
+    <a class="button secondary" href="{% url 'blog_list' %}">View my blogs</a>
+</div>
+{% endblock %}

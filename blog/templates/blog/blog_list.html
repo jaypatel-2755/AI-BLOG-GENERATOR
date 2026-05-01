@@ -1,0 +1,29 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<div class="page-header">
+    <h1>My Generated Blogs</h1>
+    <a class="button" href="{% url 'dashboard' %}">Create another blog</a>
+</div>
+{% if blogs %}
+    <div class="blog-grid">
+        {% for blog in blogs %}
+            <article class="blog-card">
+                <h2>{{ blog.title }}</h2>
+                <p class="meta">Created at {{ blog.created_at|date:"M d, Y H:i" }}</p>
+                <div class="blog-preview">
+                    {{ blog.content|truncatewords:40 }}
+                </div>
+                <div class="card-actions">
+                    <a class="button small" href="{% url 'blog_detail' blog.pk %}">Read more</a>
+                    <form method="POST" action="{% url 'delete_blog' blog.id %}" onsubmit="return confirm('Are you sure you want to delete this blog?');">
+                        {% csrf_token %}
+                        <button type="submit" class="button small delete-button">Delete</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You have not generated any blogs yet. Go back to the dashboard to create your first one.</p>
+{% endif %}
+{% endblock %}
